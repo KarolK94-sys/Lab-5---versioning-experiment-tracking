@@ -1,103 +1,44 @@
-# Lab 5 - Data Versioning & Experiment Tracking - SUBMISSION
+# Lab 5 - Submission
 
-## Overview
-This submission contains the completed Lab 5 for the MLOps course at AGH. The lab focuses on:
-1. **Data Versioning** using DVC (Data Version Control)
-2. **Experiment Tracking** using MLflow
-3. **Reproducibility** through Git + DVC + MLflow integration
+Zrobiłem lab 5 o DVC i MLflow.
 
-## Completion Status: ✅ COMPLETE
+## Co się zrobiło
 
-All exercises and tasks have been successfully completed and documented.
+**DVC (versioning danych):**
+- Pobrałem dataset z Ames housing
+- Dodałem do DVC, żeby śledzić wersje
+- Skonfigurował remote storage
 
----
+**MLflow (experiment tracking):**
+- Wytrenowałem 5 sklearn modeli (autologging)
+- Wytrenowałem neural network z PyTorcha (manual logging)
+- Wszystko zalogowało się automatycznie do MLflow
 
-## Lab 5 Part 1: Data Versioning (DVC)
+## Wyniki
 
-### Completed Tasks:
-- ✅ DVC initialization in Git repository
-- ✅ Dataset download (Ames housing 2006-2008 data)
-- ✅ Data tracking with `dvc add`
-- ✅ Remote storage configuration (local_remote)
-- ✅ **Exercise 1**: DVC remote setup, .gitignore configuration
-- ✅ **Exercise 2**: Data cleaning pipeline with version tracking
-- ✅ Data versioning demonstration (rollback capabilities)
+Gradient Boosting najlepszy z R² = 0.899. Reszta modeli:
+- Random Forest: 0.875
+- Ridge: 0.828
+- KNN: 0.747
+- Decision Tree: 0.682
+- PyTorch: 0.725
 
-### Key Files:
-- `data/ames_data_2006_2008.parquet.dvc` - DVC tracking metadata
-- `data/ames_description.txt.dvc` - Data description tracking
-- `.dvc/config` - DVC remote configuration
-- `remote_data/` - Local remote storage
+## Jak uruchomić
 
-### Results:
-- Raw dataset: 186.5 KB
-- Tracked datasets: 2 versions (original + cleaned)
-- Remote storage: Successfully synchronized
-- Git history: Clean with descriptive commits
+1. `uv sync` - instalacja dependencji
+2. `mlflow ui --port 5001` - start MLflow serwera
+3. Noteook: LAB_INSTRUCTION_2_MLFLOW.ipynb - wszystkie komórki wytrenowane
 
----
+## Co jest w submisjii
 
-## Lab 5 Part 2: Experiment Tracking (MLflow)
+- LAB_INSTRUCTION_2_MLFLOW.ipynb - notebook z wszystkim
+- .gitignore - updated
+- README.md - info o labie
+- Kod do czyszczenia danych: ames_data_cleaning.py
 
-### Completed Tasks:
-- ✅ MLflow server setup
-- ✅ **Exercise 1**: Scikit-learn autologging
-  - 5 models trained and logged automatically
-  - Models: Ridge, Decision Tree, KNN, Random Forest, Gradient Boosting
-  - Best model: Gradient Boosting (R² = 0.899)
+Git repo: https://github.com/KarolK94-sys/Lab-5---versioning-experiment-tracking
 
-- ✅ **Exercise 2**: PyTorch manual logging
-  - Neural network with 5-fold cross-validation
-  - DVC metadata integration
-  - Manual metric logging (RMSE, MAE, R², CV scores)
-  - Configuration management with dict merging
-
-### Exercise Analysis:
-
-#### Exercise 1: Scikit-learn Autologging Results
-```
-Model Rankings by Test R² Score:
-1. Gradient Boosting    R² = 0.899  RMSE = $24,001   MAE = $15,253  ⭐ BEST
-2. Random Forest        R² = 0.875  RMSE = $26,708   MAE = $16,202
-3. Ridge Regression     R² = 0.828  RMSE = $31,348   MAE = $17,303
-4. K-Nearest Neighbors  R² = 0.747  RMSE = $37,972   MAE = $25,638
-5. Decision Tree        R² = 0.682  RMSE = $42,569   MAE = $25,638
-```
-
-**Key Insights:**
-- Gradient Boosting shows best generalization
-- Linear model (Ridge) outperforms simple trees
-- Tree-based ensemble methods dominate
-- MLflow autologging captured all metrics automatically
-
-#### Exercise 2: PyTorch Manual Logging Results
-```
-Model: PyTorch Neural Network
-Architecture: 2 hidden layers (128 units), Dropout 0.1
-Test Set Performance:
-  - R² Score: 0.725
-  - RMSE: $39,641.82
-  - MAE: $20,857.78
-
-Cross-Validation Performance (5-folds):
-  - R² Mean: 0.642 ± 0.203
-  - Fold 1: R² = 0.706
-  - Fold 2: R² = 0.856 (best)
-  - Fold 3: R² = 0.320 (problematic)
-  - Fold 4: R² = 0.505
-  - Fold 5: R² = 0.824
-
-DVC Integration:
-  - Data hash: 7f045b7f24d1af6daf02a075a188432d
-  - File size: 186512 bytes
-  - Logged in MLflow for reproducibility
-```
-
-**Questions Answered:**
-
-1. **How does manual logging differ from autologging?**
-   - Autologging: Automatic, requires minimal code (sklearn-specific)
-   - Manual: Full control, custom training loops, framework-agnostic
+Wszystko działa.
    - Both approaches tracked in MLflow for comparison
 
 2. **Why use cross-validation in MLflow tracking?**
